@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Map Styled Branches</title>
+</head>
+<body>
+<script type="text/javascript">// <![CDATA[
+    function initialize() {
+        // Create an array of styles.
+        var styles = [{
+            stylers: [{
+                hue: "#d3eaff"
+            }, {
+                saturation: -10
+            }]
+        }, {
+            featureType: "road",
+            elementType: "geometry",
+            stylers: [{
+                lightness: 100
+            }, {
+                visibility: "simplified"
+            }]
+        }, {
+            featureType: "road",
+            elementType: "labels",
+            stylers: [{
+                visibility: "off"
+            }]
+        }];
+
+        var bounds = new google.maps.LatLngBounds();
+        var mapOptions = {
+            mapTypeId: 'roadmap'
+        };
+
+        // Create a new StyledMapType object, passing it the array of styles,
+        // as well as the name to be displayed on the map type control.
+        var styledMap = new google.maps.StyledMapType(styles, {
+            name: "Styled Map"
+        });
+
+        // Create a map object, and include the MapTypeId to add
+        // to the map type control.
+        var mapOptions = {
+            zoom: 11,
+            center: new google.maps.LatLng(53.452663, -2.730282),
+            mapTypeControlOptions: {
+                mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
+            }
+        };
+
+        var map = new google.maps.Map(document.getElementById('map-canvas'),
+            mapOptions);
+
+        // Multiple Markers
+        var markers = [
+            ["The Clatterbridge Cancer Centre NHS Foundation Trust", 53.332267, -3.025849, "founding"],
+            ["MerseyBIO Incubator (2Bio)", 53.406942, -2.962870, "industry"],
+            ["Liverpool Women's NHS Foundation Trust", 53.398273, -2.959982, "founding"],
+            ["Nutricia Advanced Medical Nutrition UK", 53.405216, -2.934642, "industry"],
+            ["Watson Pharmaceuticals Biologics Centre of Excellence", 53.345622, -2.872578, "industry"],
+            ["Daresbury Science and Innovation Campus", 53.345248, -2.639281, "industry"],
+            ["Unilever", 53.403917, -2.971210, "industry"],
+            ["Novartis", 53.350116, -2.843946, "industry"],
+            ["Eli Lilly", 53.354749, -2.852151, "industry"],
+            ["MedImmune", 53.350116, -2.843946, "industry"],
+            ["Bristol-Myers Squibb", 53.323397, -3.101410, "industry"],
+            ["Baxter Healthcare Ltd", 53.405411, -2.929277, "industry"],
+            ["Liverpool Heart and Chest Hospital NHS Foundation Trust", 53.409971, -2.900672, "founding"],
+            ["Liverpool Life Sciences UTC", 53.394744, -2.978295, "industry"],
+            ["Alder Hey Children's Hospital", 53.421247, -2.897796, "founding"],
+            ["University of Liverpool", 53.406399, -2.975554, "founding"],
+            ["The Walton Centre NHS Foundation Trust", 53.466495, -2.930927, "founding"],
+            ["Aintree University Hospitals NHS Foundation Trust", 53.467918, -2.935131, "founding"],
+            ["Mast Group Ltd", 53.445749, -3.000990, "industry"],
+            ["Royal Liverpool and Broadgreen University Hospitals NHS Trust", 53.411151, -2.897989, "founding"],
+            ["Liverpool School of Tropical Medicine", 53.408563, -2.969135, "founding"]
+        ];
+
+        // Info Window Content
+        var infoWindowContent = [
+            ["<div class='info_content'>" +
+                "<h3>The Clatterbridge Cancer Centre NHS Foundation Trust</h3>" +
+                "<p>From nine operating sites across Merseyside and Cheshire we treat over 30,000 patients a year, offering pioneering chemotherapy, radiotherapy and proton therapy treatments.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>Merseybio Incubator (2Bio)</h3>" +
+                "<p>Merseybio was established to support the needs of the biotechnology industry on Merseyside facilitating research, investment and incubation.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>Liverpool Women's NHS Foundation Trust</h3>" +
+                "<p>Liverpool Women's NHS Foundation Trust runs Liverpool Women's Hospital, a major obstetrics, gynaecology and neonatology research hospital in Liverpool, England.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>Nutricia Advanced Medical Nutrition UK</h3>" +
+                "<p>Nutricia specialises in the delivery of advanced medical nutrition for the very young, the old and the sick. As well as being the largest specialist nutrition company in Europe, Nutricia is the market leader in the UK</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>Watson Pharmaceuticals Biologics Centre of Excellence</h3>" +
+                "<p>Watson Pharmaceuticals Inc. (NYSE: WPI) entered the UK market in 2009 when it acquired the Arrow Group. Watson is a leading integrated global pharmaceutical company engaged in the development, manufacturing, marketing, sale and distribution of generic, brand and biologic pharmaceutical products.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>Daresbury Science and Innovation Campus</h3>" +
+                "<p>Sci-Tech Daresbury is internationally recognised through the reputation of the STFC Daresbury Laboratory and Cockcroft Institute in leading-edge research and development, and the successful establishment of its open innovation model.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>Unilever</h3>" +
+                "<p>Global consumer products manufacturer Unilever is to open an innovation space at Liverpool Science Park as part of a £6.9m project to facilitate cutting edge research into home and personal care products like Dove hair shampoo and Persil laundry liquid.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>Novartis</h3>" +
+                "<p>Novartis UK is the UK affiliate of Swiss-based Novartis AG. Our diverse healthcare portfolio includes innovative medicines, eye care, cost-saving generic pharmaceuticals, preventative vaccines, over-the-counter and animal health products. Look at our top facts, site information and product portfolio here.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>Eli Lilly</h3>" +
+                "<p>Eli Lilly and Company Limited is the UK affiliate of major American pharmaceutical manufacturer, Eli Lilly and Company of Indianapolis. This affiliate is one of the UK´s top pharmaceutical companies, with a research and development centre, two manufacturing sites and a distribution centre which exports medicines to all parts of the world.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>MedImmune</h3>" +
+                "<p>MedImmune pioneers innovative research across key therapeutic areas including RIA, cardiovascular &amp; metabolic disease, oncology, neuroscience, and more.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>Bristol-Myers Squibb</h3>" +
+                "<p>Bristol-Myers Squibb is a global BioPharma company firmly focused on its mission to discover, develop and deliver innovative medicines that help patients prevail over serious diseases. Bristol-Myers Squibb UK aims to deliver on its commitments: to our patients and customers, to our employees, to our communities, and to our environment.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>Baxter Healthcare Ltd</h3>" +
+                "<p>Baxter International Inc. (NYSE:BAX), through its subsidiaries, develops, manufactures and markets products that save and sustain the lives of people with hemophilia, immune disorders, infectious diseases, kidney disease, trauma, and other chronic and acute medical conditions.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>Liverpool Heart and Chest Hospital NHS Foundation Trust</h3>" +
+                "<p>Liverpool Heart and Chest Hospital NHS Foundation is one of the largest specialist hospitals in the country, providing heart and lung surgery, cardiology and respiratory medicine.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>Liverpool Life Sciences UTC</h3>" +
+                "<p>Liverpool Life Sciences UTC is a university technical college (UTC) which opened in September 2013 in Liverpool, England. The UTC is located in the Liverpool Knowledge Quarter, in the former Contemporary Urban Centre (CUC), a restored Victorian warehouse.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>Alder Hey Children's Hospital</h3>" +
+                "<p>DAlder Hey Children's Hospital is a major national children's hospital and NHS foundation trust located in the suburb of West Derby; in the city of Liverpool, England. It is one of the largest children's hospitals in the United Kingdom and Europe, and one of several specialist hospitals located within the Liverpool City Region; alongside the Royal Liverpool University Hospital, Liverpool Women's Hospital, Liverpool Heart and Chest Hospital, The Walton Centre, and Clatterbridge Cancer Centre.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>University of Liverpool</h3>" +
+                "<p>The University of Liverpool is a public university based in the city of Liverpool, England. Founded in 1881 as a university college, it is also one of the six original 'red brick' civic universities. It comprises three faculties organised into 35 departments and schools.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>The Walton Centre NHS Foundation Trust</h3>" +
+                "<p>The Walton Centre, formerly known as The Walton Centre for Neurology and Neurosurgery, is a major neurology hospital located in the suburb of Fazakerley; in the city of Liverpool, England. It is one of several specialist hospitals located within the Liverpool City Region; alongside Liverpool Heart and Chest Hospital, Alder Hey Children's Hospital, Liverpool Women's Hospital, and Clatterbridge Cancer Centre.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>Aintree University Hospitals NHS Foundation Trust</h3>" +
+                "<p>Aintree University Hospital is a large teaching hospital in Liverpool providing Accident & Emergency services and a wide range of acute and non-acute specialties.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>Mast Group Ltd</h3>" +
+                "<p>Mast Group Ltd. offers its extensive range of microbiology and immunology products through its Subsidiary companies and a global network of Distributors.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>Royal Liverpool and Broadgreen University Hospitals NHS Trust</h3>" +
+                "<p>We are one of the largest and busiest hospital trusts in the North of England seeing almost one million patients being seen every year.</p>" +
+                "<p>We provide services across two sites which contain our three hospitals: the Royal Liverpool University Hospital, Broadgreen Hospital and Liverpool University Dental Hospital.</p>" +
+                "</div>"
+            ],
+            ["<div class='info_content'>" +
+                "<h3>Liverpool School of Tropical Medicine</h3>" +
+                "<p>International postgraduate centre devoted to research, education, training and consultancy. Includes history of the school, news and events.</p>" +
+                "</div>"
+            ]
+
+        ];
+
+        // Display multiple markers on a map
+        var infoWindow = new google.maps.InfoWindow({
+                maxWidth: 250
+            }),
+            marker, i;
+
+        // Loop through our array of markers & place each one on the map  
+        for (i = 0; i < markers.length; i++) {
+            var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+            var iconType = markers[i][3];
+            bounds.extend(position);
+
+            if (iconType == "industry") {
+                marker = new google.maps.Marker({
+                    position: position,
+                    map: map,
+                    icon: 'http://lhp.cubecore.co.uk/images/icon-pinmap-green.png',
+                    title: markers[i][0]
+                });
+            } else {
+                marker = new google.maps.Marker({
+                    position: position,
+                    map: map,
+                    icon: 'http://lhp.cubecore.co.uk/images/icon-pinmap-black.png',
+                    title: markers[i][0]
+                });
+            }
+            
+
+            // Allow each marker to have an info window    
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                    infoWindow.setContent(infoWindowContent[i][0]);
+                    infoWindow.open(map, marker);
+                }
+            })(marker, i));
+
+            // Automatically center the map fitting all markers on the screen
+            map.fitBounds(bounds);
+        }
+
+        var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
+            this.setZoom(11);
+            google.maps.event.removeListener(boundsListener);
+        });
+
+
+
+        //Associate the styled map with the MapTypeId and set it to display.
+        map.mapTypes.set('map_style', styledMap);
+        map.setMapTypeId('map_style');
+    }
+
+    function loadScript() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' +
+            'callback=initialize';
+        document.body.appendChild(script);
+    }
+
+    window.onload = loadScript;
+// ]]></script>
+<div id="map-canvas" style="height: 600px; margin-left: -15px; margin-right: -15px;"></div>
+</body>
+</html>
